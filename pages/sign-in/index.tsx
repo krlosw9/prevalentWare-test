@@ -8,7 +8,7 @@ export default function SignIn() {
   const handleLogin = async () => {
     await authClient.signIn.social({
       provider: 'github',
-      callbackURL: '/movements'
+      callbackURL: '/'
     });
   };
 
