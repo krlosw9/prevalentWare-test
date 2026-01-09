@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { fromNodeHeaders } from 'better-auth/node';
-import { auth } from '@/lib/auth';
+import { auth, Session } from '@/lib/auth';
 
 type AuthenticatedHandler = (
   req: NextApiRequest,
   res: NextApiResponse,
-  session: typeof auth.$Infer.Session
+  session: Session
 ) => Promise<void> | void;
 
 export function withAuth(handler: AuthenticatedHandler, requiredRole?: 'ADMIN' | 'USER') {

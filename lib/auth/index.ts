@@ -18,7 +18,22 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     },
   },
+  user: {
+    additionalFields: {
+      role: {
+        type: 'string',
+        required: true,
+        defaultValue: 'ADMIN',
+        input: false,
+      },
+      phone: {
+        type: 'string',
+        required: false,
+      },
+    },
+  },
   plugins: [nextCookies()]
 });
 
 export type Session = typeof auth.$Infer.Session;
+export type User = typeof auth.$Infer.Session.user;
