@@ -56,7 +56,7 @@ const movementService = new MovementService(movementRepository);
  *         description: No autorizado.
  *       403:
  *         description: Prohibido - Solo administradores.
- * 
+ *
  * components:
  *   schemas:
  *     Movement:
