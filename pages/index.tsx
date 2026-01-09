@@ -1,33 +1,46 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/client/shared/components/ui/button';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/client/shared/components/ui/card';
 import { authClient } from '@/lib/auth/client';
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 from-slate-100 to-slate-200">
-      <div className="max-w-3xl text-center space-y-8 p-8">
-        <h1 className="text-5xl font-extrabold tracking-tight text-slate-900">
+    <div className='flex flex-col items-center justify-center min-h-screen bg-gray-50 from-slate-100 to-slate-200'>
+      <div className='max-w-3xl text-center space-y-8 p-8'>
+        <h1 className='text-5xl font-extrabold tracking-tight text-slate-900'>
           PrevalentWare Fullstack Test
         </h1>
-        <p className="text-xl text-slate-600">
+        <p className='text-xl text-slate-600'>
           Sistema de gestión financiera con autenticación y reportes.
         </p>
 
-        <div className="flex justify-center gap-4">
-          <Button variant="outline" size="lg" onClick={() => authClient.signOut()}>Cerrar Sesión</Button>
+        <div className='flex justify-center gap-4'>
+          <Button
+            variant='outline'
+            size='lg'
+            onClick={() => authClient.signOut()}
+          >
+            Cerrar Sesión
+          </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
-          <Link href="/movements">
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left'>
+          <Link href='/movements'>
             <Card>
               <CardHeader>
                 <CardTitle>Movimientos</CardTitle>
-                <CardDescription>Gestiona tus ingresos y egresos.</CardDescription>
+                <CardDescription>
+                  Gestiona tus ingresos y egresos.
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>
-          <Link href="/users">
+          <Link href='/users'>
             <Card>
               <CardHeader>
                 <CardTitle>Usuarios</CardTitle>
@@ -35,11 +48,13 @@ export default function Home() {
               </CardHeader>
             </Card>
           </Link>
-          <Link href="/reports">
+          <Link href='/reports'>
             <Card>
               <CardHeader>
                 <CardTitle>Reportes</CardTitle>
-                <CardDescription>Visualiza el estado financiero.</CardDescription>
+                <CardDescription>
+                  Visualiza el estado financiero.
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>

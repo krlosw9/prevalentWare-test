@@ -32,7 +32,7 @@ export const auth = betterAuth({
       },
     },
   },
-  plugins: [nextCookies()]
+  plugins: [nextCookies()],
 });
 
 export type Session = typeof auth.$Infer.Session;
