@@ -1,3 +1,5 @@
+import { Movement, Prisma } from "@prisma/client";
+
 /**
  * Interfaz base que define las operaciones CRUD estándar para cualquier repositorio.
  * Toda entidad debe implementar estos métodos.
@@ -21,4 +23,13 @@ export interface IBaseRepository<T, CreateInput, UpdateInput> {
 
   /** Elimina una entidad */
   delete(id: string): Promise<T>;
+}
+
+/**
+ * Interfaz específica para el repositorio de Movement.
+ * Extiende IBaseRepository con métodos de búsqueda específicos de movimientos.
+ */
+export interface IMovementRepository extends IBaseRepository<Movement, Prisma.MovementCreateInput, Prisma.MovementUpdateInput> {
+  /** Busca todos los movimientos de un usuario específico, ordenados por fecha descendente */
+  findByUserId(userId: string): Promise<Movement[]>;
 }
