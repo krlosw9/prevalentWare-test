@@ -18,9 +18,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse, session: any) 
       return res.status(403).json({ message: 'Prohibido: solo los administradores pueden crear movimientos.' });
     }
 
-    const { concept, amount, date, userId } = req.body;
+    const { concept, amount, date } = req.body;
 
-    if (!concept || !amount || !date || !userId) {
+    if (!concept || !amount || !date) {
       return res.status(400).json({ message: 'Faltan campos obligatorios' });
     }
 
@@ -29,7 +29,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse, session: any) 
       amount,
       date: new Date(date),
       type: req.body.type || 'EXPENSE',
-      user: { connect: { id: userId } }
+      user: { connect: { id: session.user.id } }
     });
 
     return res.status(201).json(movement);
