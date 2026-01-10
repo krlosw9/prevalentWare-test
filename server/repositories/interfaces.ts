@@ -1,4 +1,4 @@
-import { Movement, Prisma } from "@prisma/client";
+import { Movement, Prisma, User } from "@prisma/client";
 
 /**
  * Interfaz base que define las operaciones CRUD estándar para cualquier repositorio.
@@ -35,4 +35,11 @@ export interface IMovementRepository extends IBaseRepository<Movement, Prisma.Mo
 
   /** Obtiene los totales agregados (balance total y conteo) */
   getTotals(): Promise<{ totalBalance: number; totalCount: number }>;
+}
+/**
+ * Interfaz específica para el repositorio de User.
+ */
+export interface IUserRepository extends IBaseRepository<User, Prisma.UserCreateInput, Prisma.UserUpdateInput> {
+  /** Busca un usuario por su correo electrónico */
+  findByEmail(email: string): Promise<User | null>;
 }
