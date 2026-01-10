@@ -11,7 +11,6 @@ CREATE TABLE "movement" (
     "concept" TEXT NOT NULL,
     "amount" DECIMAL(10,2) NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
-    "type" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
