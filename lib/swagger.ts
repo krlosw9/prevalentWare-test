@@ -1,4 +1,5 @@
 import swaggerJsdoc from 'swagger-jsdoc';
+import path from 'path';
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -25,7 +26,7 @@ const options: swaggerJsdoc.Options = {
       },
     },
   },
-  apis: ['./pages/api/**/*.ts'], // Busca comentarios en todas las rutas de la API
+  apis: [path.join(process.cwd(), './pages/api/**/*.ts')], // Busca de forma absoluta
 };
 
 export const spec = swaggerJsdoc(options);

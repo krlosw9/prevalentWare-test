@@ -5,7 +5,7 @@ const SwaggerUI = dynamic(() => import('swagger-ui-react'), { ssr: false });
 
 const ApiDocs = () => (
   <div style={{ paddingBottom: '2rem' }}>
-    <SwaggerUI url='/api/docs' />
+    <SwaggerUI url='/api/openapi.json' />
   </div>
 );
 
