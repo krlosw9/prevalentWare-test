@@ -9,12 +9,8 @@ export const swaggerDefinition = {
   },
   servers: [
     {
-      url: '/',
-      description: 'Servidor Actual',
-    },
-    {
-      url: 'http://localhost:3000',
-      description: 'Servidor de Desarrollo',
+      url: 'https://prevalent-ware-test.vercel.app/api/docs',
+      description: 'Producción',
     },
   ],
   components: {
@@ -46,6 +42,35 @@ export const swaggerDefinition = {
           userId: {
             type: 'string',
           },
+          user: {
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+      User: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+          },
+          name: {
+            type: 'string',
+          },
+          email: {
+            type: 'string',
+          },
+          phone: {
+            type: 'string',
+          },
+          role: {
+            type: 'string',
+            enum: ['USER', 'ADMIN'],
+          },
         },
       },
     },
@@ -55,16 +80,28 @@ export const swaggerDefinition = {
       get: {
         summary: 'Obtener todos los movimientos',
         description:
-          'Retorna una lista de todos los ingresos y egresos registrados.',
+          'Retorna una lista de todos los ingresos y egresos registrados junto con el total.',
         responses: {
           '200': {
-            description: 'Lista de movimientos obtenida exitosamente.',
+            description:
+              'Lista de movimientos y totales obtenida exitosamente.',
             content: {
               'application/json': {
                 schema: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/Movement',
+                  type: 'object',
+                  properties: {
+                    movements: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/components/schemas/Movement',
+                      },
+                    },
+                    totalCount: {
+                      type: 'number',
+                    },
+                    totalBalance: {
+                      type: 'number',
+                    },
                   },
                 },
               },
@@ -111,6 +148,98 @@ export const swaggerDefinition = {
           },
           '400': {
             description: 'Datos de entrada inválidos.',
+          },
+          '401': {
+            description: 'No autorizado.',
+          },
+          '403': {
+            description: 'Prohibido - Solo administradores.',
+          },
+        },
+      },
+    },
+    '/api/users/{id}': {
+      patch: {
+        summary: 'Actualizar un usuario',
+        description:
+          'Actualiza el nombre o el rol de un usuario. Solo administradores.',
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            schema: {
+              type: 'string',
+            },
+            description: 'ID del usuario',
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string',
+                  },
+                  role: {
+                    type: 'string',
+                    enum: ['USER', 'ADMIN'],
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'Usuario actualizado exitosamente.',
+          },
+          '400': {
+            description: 'Datos de entrada inválidos.',
+          },
+          '401': {
+            description: 'No autorizado.',
+          },
+          '403': {
+            description: 'Prohibido - Solo administradores.',
+          },
+          '404': {
+            description: 'Usuario no encontrado.',
+          },
+        },
+      },
+    },
+    '/api/users': {
+      get: {
+        summary: 'Obtener todos los usuarios',
+        description:
+          'Retorna una lista de todos los usuarios registrados. Solo administradores.',
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Lista de usuarios obtenida exitosamente.',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/User',
+                  },
+                },
+              },
+            },
           },
           '401': {
             description: 'No autorizado.',

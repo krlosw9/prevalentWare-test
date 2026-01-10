@@ -18,13 +18,9 @@ const options = {
     },
     servers: [
       {
-        url: '/',
-        description: 'Servidor Actual',
-      },
-      {
-        url: 'http://localhost:3000',
-        description: 'Servidor de Desarrollo',
-      },
+        url: 'https://prevalent-ware-test.vercel.app/api/docs',
+        description: 'Producción',
+      }
     ],
     components: {
       securitySchemes: {
