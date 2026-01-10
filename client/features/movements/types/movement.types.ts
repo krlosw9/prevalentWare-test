@@ -8,10 +8,15 @@ export interface Movement {
   id: string;
   concept: MovementConcept;
   amount: number;
-  date: Date;
+  date: Date | string;
   userId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
 
 export interface CreateMovementDTO {
@@ -28,4 +33,10 @@ export interface MovementWithUser extends Movement {
     name: string;
     email: string;
   };
+}
+
+export interface MovementsResponse {
+  movements: Movement[];
+  totalCount: number;
+  totalBalance: number;
 }

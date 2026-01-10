@@ -21,7 +21,7 @@ import { CreateMovementForm } from '@/client/features/movements/components/creat
 
 const MovementsPage = () => {
   const { role } = useAuth();
-  const { movements, isLoading, error, refetch } = useMovements();
+  const { movements, totalBalance, isLoading, error, refetch } = useMovements();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSuccess = () => {
@@ -53,7 +53,11 @@ const MovementsPage = () => {
           )}
         </CardHeader>
         <CardContent>
-          <MovementsList movements={movements} isLoading={isLoading} />
+          <MovementsList
+            movements={movements}
+            totalBalance={totalBalance}
+            isLoading={isLoading}
+          />
         </CardContent>
       </Card>
     </div>
