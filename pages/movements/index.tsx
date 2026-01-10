@@ -19,7 +19,7 @@ import { useMovements } from '@/client/features/movements/hooks/use-movements';
 import { MovementsList } from '@/client/features/movements/components/movements-list';
 import { CreateMovementForm } from '@/client/features/movements/components/create-movement-form';
 
-export default function MovementsPage() {
+const MovementsPage = () => {
   const { role } = useAuth();
   const { movements, isLoading, error, refetch } = useMovements();
   const [isOpen, setIsOpen] = useState(false);
@@ -58,4 +58,6 @@ export default function MovementsPage() {
       </Card>
     </div>
   );
-}
+};
+
+export default MovementsPage;

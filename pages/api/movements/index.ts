@@ -75,11 +75,11 @@ const movementService = new MovementService(movementRepository);
  *         userId:
  *           type: string
  */
-const handler = async function (
+const handler = async (
   req: NextApiRequest,
   res: NextApiResponse,
   session: Session
-) {
+) => {
   if (req.method === 'GET') {
     const movements = await movementService.getMovements();
     return res.status(200).json(movements);

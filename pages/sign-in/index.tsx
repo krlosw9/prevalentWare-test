@@ -9,7 +9,7 @@ import {
   CardDescription,
 } from '@/client/shared/components/ui/card';
 
-export default function SignIn() {
+const SignIn = () => {
   const handleLogin = async () => {
     await authClient.signIn.social({
       provider: 'github',
@@ -37,4 +37,6 @@ export default function SignIn() {
       </Card>
     </div>
   );
-}
+};
+
+export default SignIn;
