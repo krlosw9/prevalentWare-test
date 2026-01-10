@@ -27,7 +27,10 @@
         "./server/*"
       ]
     },
-    "target": "esnext"
+    "target": "esnext",
+    "types": [
+      "bun-types"
+    ]
   },
   "include": [
     "next-env.d.ts",
