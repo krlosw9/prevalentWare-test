@@ -131,7 +131,7 @@ const handler = async (
       if (error instanceof z.ZodError) {
         return res.status(400).json({
           message: 'Error de validación',
-          errors: error.issues.map((e) => e.message)
+          errors: error.issues.map((e) => e.message),
         });
       }
       return res.status(500).json({ message: 'Error interno del servidor' });

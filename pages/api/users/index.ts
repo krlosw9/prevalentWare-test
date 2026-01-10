@@ -63,6 +63,7 @@ const handler = async (
     try {
       const users = await userService.getUsers();
       return res.status(200).json(users);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return res.status(500).json({ message: 'Error interno del servidor' });
     }

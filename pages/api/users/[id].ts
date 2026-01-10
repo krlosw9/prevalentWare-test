@@ -14,9 +14,11 @@ const userService = new UserService(userRepository);
  */
 const UpdateUserSchema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio').optional(),
-  role: z.enum(['USER', 'ADMIN'], {
-    message: 'El rol debe ser USER o ADMIN',
-  }).optional(),
+  role: z
+    .enum(['USER', 'ADMIN'], {
+      message: 'El rol debe ser USER o ADMIN',
+    })
+    .optional(),
 });
 
 /**
@@ -81,7 +83,7 @@ const handler = async (
       if (error instanceof z.ZodError) {
         return res.status(400).json({
           message: 'Error de validación',
-          errors: error.issues.map((e) => e.message)
+          errors: error.issues.map((e) => e.message),
         });
       }
       if (error instanceof Error && error.message === 'Usuario no encontrado') {
