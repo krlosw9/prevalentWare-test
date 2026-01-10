@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "update-swagger": "node scripts/generate-swagger.mjs",
+    "prebuild": "node scripts/generate-swagger.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
