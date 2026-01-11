@@ -30,11 +30,11 @@ export interface IBaseRepository<T, CreateInput, UpdateInput> {
  * Extiende IBaseRepository con métodos de búsqueda específicos de movimientos.
  */
 export interface IMovementRepository extends IBaseRepository<Movement, Prisma.MovementCreateInput, Prisma.MovementUpdateInput> {
-  /** Busca todos los movimientos de un usuario específico, ordenados por fecha descendente */
-  findByUserId(userId: string): Promise<Movement[]>;
-
   /** Obtiene los totales agregados (balance total y conteo) */
   getTotals(): Promise<{ totalBalance: number; totalCount: number }>;
+
+  /** Obtiene un resumen diario de ingresos y egresos */
+  getDailySummary(): Promise<any[]>;
 }
 /**
  * Interfaz específica para el repositorio de User.

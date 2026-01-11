@@ -24,19 +24,6 @@ export class MovementRepository extends BaseRepository<Movement, Prisma.Movement
   }
 
   /**
-   * Busca todos los movimientos de un usuario específico, ordenados por fecha descendente.
-   * @param userId ID del usuario.
-   * @returns Lista de movimientos del usuario con información de usuario.
-   */
-  async findByUserId(userId: string): Promise<Movement[]> {
-    return (this.delegate as any).findMany({
-      where: { userId },
-      include: { user: true },
-      orderBy: { date: 'desc' },
-    });
-  }
-
-  /**
    * Obtiene los totales agregados (balance total y conteo) directamente de la base de datos.
    * Realiza la suma de INCOME y resta de EXPENSE.
    */
@@ -60,5 +47,37 @@ export class MovementRepository extends BaseRepository<Movement, Prisma.Movement
       totalBalance: income - expense,
       totalCount: count,
     };
+  }
+
+  /**
+   * Obtiene un resumen diario de ingresos y egresos ordenados por fecha.
+   */
+  async getDailySummary(): Promise<any[]> {
+    const movements = await prisma.movement.findMany({
+      orderBy: { date: 'asc' },
+      select: {
+        date: true,
+        amount: true,
+        concept: true,
+      }
+    });
+
+    const summary: Record<string, { date: string; income: number; expense: number }> = {};
+
+    movements.forEach(m => {
+      const dateStr = m.date.toISOString().split('T')[0];
+      if (!summary[dateStr]) {
+        summary[dateStr] = { date: dateStr, income: 0, expense: 0 };
+      }
+
+      const amount = Number(m.amount);
+      if (m.concept === 'INCOME') {
+        summary[dateStr].income += amount;
+      } else {
+        summary[dateStr].expense += amount;
+      }
+    });
+
+    return Object.values(summary);
   }
 }
