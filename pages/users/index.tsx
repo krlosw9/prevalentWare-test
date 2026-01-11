@@ -7,9 +7,8 @@ import {
 import { useAuth } from '@/client/shared/hooks/use-auth';
 import { useUsers } from '@/client/features/users/hooks/use-users';
 import { UsersList } from '@/client/features/users/components/users-list';
-import Link from 'next/link';
-import { Button } from '@/client/shared/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import AppLayout from '@/client/shared/components/layout/app-layout';
+import type { ReactElement } from 'react';
 
 const UsersPage = () => {
   const { isPending: authLoading } = useAuth();
@@ -17,24 +16,26 @@ const UsersPage = () => {
 
   if (authLoading || usersLoading) {
     return (
-      <div className='flex items-center justify-center min-h-screen'>
-        <p className='text-lg'>Cargando...</p>
+      <div className='flex items-center justify-center p-12'>
+        <p className='text-lg text-slate-500 animate-pulse'>
+          Cargando usuarios...
+        </p>
       </div>
     );
   }
 
   return (
-    <div className='container mx-auto py-10 px-4 space-y-6'>
-      <div className='flex items-center gap-4'>
-        <Link href='/'>
-          <Button variant='ghost' size='icon'>
-            <ArrowLeft className='h-4 w-4' />
-          </Button>
-        </Link>
-        <h1 className='text-3xl font-bold tracking-tight'>Inicio</h1>
+    <div className='space-y-6'>
+      <div className='space-y-1'>
+        <h1 className='text-3xl font-bold tracking-tight text-slate-900'>
+          Usuarios
+        </h1>
+        <p className='text-slate-500'>
+          Administra los roles y estados de los usuarios.
+        </p>
       </div>
 
-      <Card>
+      <Card className='border-slate-200'>
         <CardHeader>
           <CardTitle>Gestión de Usuarios</CardTitle>
         </CardHeader>
@@ -49,5 +50,7 @@ const UsersPage = () => {
     </div>
   );
 };
+
+UsersPage.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>;
 
 export default UsersPage;

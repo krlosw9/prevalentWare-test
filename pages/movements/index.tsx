@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { useState, type ReactElement } from 'react';
 import { Button } from '@/client/shared/components/ui/button';
 import {
   Card,
@@ -18,6 +17,7 @@ import { useAuth } from '@/client/shared/hooks/use-auth';
 import { useMovements } from '@/client/features/movements/hooks/use-movements';
 import { MovementsList } from '@/client/features/movements/components/movements-list';
 import { CreateMovementForm } from '@/client/features/movements/components/create-movement-form';
+import AppLayout from '@/client/shared/components/layout/app-layout';
 
 const MovementsPage = () => {
   const { role } = useAuth();
@@ -34,34 +34,34 @@ const MovementsPage = () => {
   }
 
   return (
-    <div className='container mx-auto py-10'>
-      <Card>
-        <CardHeader className='flex flex-row items-center justify-between'>
-          <CardTitle>Ingresos y egresos</CardTitle>
-          {role === 'ADMIN' && (
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
-              <DialogTrigger asChild>
-                <Button>Nuevo</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Nuevo Movimiento de Dinero</DialogTitle>
-                </DialogHeader>
-                <CreateMovementForm onSuccess={handleSuccess} />
-              </DialogContent>
-            </Dialog>
-          )}
-        </CardHeader>
-        <CardContent>
-          <MovementsList
-            movements={movements}
-            totalBalance={totalBalance}
-            isLoading={isLoading}
-          />
-        </CardContent>
-      </Card>
-    </div>
+    <Card className='border-slate-200'>
+      <CardHeader className='flex flex-row items-center justify-between'>
+        <CardTitle>Ingresos y egresos</CardTitle>
+        {role === 'ADMIN' && (
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+              <Button>Nuevo</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Nuevo Movimiento de Dinero</DialogTitle>
+              </DialogHeader>
+              <CreateMovementForm onSuccess={handleSuccess} />
+            </DialogContent>
+          </Dialog>
+        )}
+      </CardHeader>
+      <CardContent>
+        <MovementsList
+          movements={movements}
+          totalBalance={totalBalance}
+          isLoading={isLoading}
+        />
+      </CardContent>
+    </Card>
   );
 };
+
+MovementsPage.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>;
 
 export default MovementsPage;
