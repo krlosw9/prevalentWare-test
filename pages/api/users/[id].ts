@@ -13,7 +13,10 @@ const userService = new UserService(userRepository);
  * Esquema de validación para la edición de usuarios
  */
 const UpdateUserSchema = z.object({
-  name: z.string().min(1, 'El nombre es obligatorio').optional(),
+  name: z
+    .string()
+    .min(2, 'El nombre debe tener al menos 2 caracteres')
+    .optional(),
   role: z
     .enum(['USER', 'ADMIN'], {
       message: 'El rol debe ser USER o ADMIN',

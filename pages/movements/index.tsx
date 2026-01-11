@@ -1,9 +1,6 @@
 import { useState, type ReactElement } from 'react';
 import { Button } from '@/client/shared/components/ui/button';
-import {
-  Card,
-  CardContent,
-} from '@/client/shared/components/ui/card';
+import { Card, CardContent } from '@/client/shared/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -35,7 +32,7 @@ const MovementsPage = () => {
   if (authLoading || (isLoading && !movements)) {
     return (
       <PageShell>
-        <LoadingState message="Preparando tablero de movimientos..." />
+        <LoadingState message='Preparando tablero de movimientos...' />
       </PageShell>
     );
   }
@@ -53,13 +50,13 @@ const MovementsPage = () => {
   return (
     <PageShell>
       <PageHeader
-        title="Ingresos y egresos"
-        description="Gestiona y visualiza todos los movimientos de capital de la empresa."
+        title='Ingresos y egresos'
+        description='Gestiona y visualiza todos los movimientos de capital de la empresa.'
       >
         {role === 'ADMIN' && (
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-              <Button className="shadow-sm">Nuevo Movimiento</Button>
+              <Button className='shadow-sm'>Nuevo Movimiento</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -72,7 +69,7 @@ const MovementsPage = () => {
       </PageHeader>
 
       <Card className='border-slate-200 overflow-hidden shadow-sm'>
-        <CardContent className="p-0">
+        <CardContent className='p-0'>
           <MovementsList
             movements={movements}
             totalBalance={totalBalance}

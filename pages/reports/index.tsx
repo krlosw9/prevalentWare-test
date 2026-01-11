@@ -21,7 +21,7 @@ const ReportsPage = () => {
   if (authLoading || reportsLoading) {
     return (
       <PageShell>
-        <LoadingState message="Cargando reportes financieros..." />
+        <LoadingState message='Cargando reportes financieros...' />
       </PageShell>
     );
   }
@@ -42,16 +42,16 @@ const ReportsPage = () => {
   return (
     <PageShell>
       <PageHeader
-        title="Reportes Financieros"
-        description="Analiza el rendimiento económico y exporta balances detallados."
+        title='Reportes Financieros'
+        description='Analiza el rendimiento económico y exporta balances detallados.'
       >
         <Button
-          variant="outline"
+          variant='outline'
           onClick={handleExport}
           disabled={isExporting}
-          className="shadow-sm"
+          className='shadow-sm'
         >
-          <Download className="mr-2 h-4 w-4" />
+          <Download className='mr-2 h-4 w-4' />
           {isExporting ? 'Exportando...' : 'Exportar CSV'}
         </Button>
       </PageHeader>
@@ -62,7 +62,7 @@ const ReportsPage = () => {
 
       <div className='w-full'>
         {hasChartData ? (
-          < FinancialChart data={reportData!.chartData} />
+          <FinancialChart data={reportData!.chartData} />
         ) : (
           <Card className='p-12 text-center text-slate-500 border-slate-200 shadow-sm'>
             No hay movimientos registrados para mostrar en el gráfico

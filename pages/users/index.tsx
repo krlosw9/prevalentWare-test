@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/client/shared/components/ui/card';
+import { Card, CardContent } from '@/client/shared/components/ui/card';
 import { useAuth } from '@/client/shared/hooks/use-auth';
 import { useUsers } from '@/client/features/users/hooks/use-users';
 import { UsersList } from '@/client/features/users/components/users-list';
@@ -22,7 +17,7 @@ const UsersPage = () => {
   if (authLoading || usersLoading) {
     return (
       <PageShell>
-        <LoadingState message="Cargando usuarios..." />
+        <LoadingState message='Cargando usuarios...' />
       </PageShell>
     );
   }
@@ -30,12 +25,12 @@ const UsersPage = () => {
   return (
     <PageShell>
       <PageHeader
-        title="Gestión de Usuarios"
-        description="Administra los roles y estados de acceso de los usuarios del sistema."
+        title='Gestión de Usuarios'
+        description='Administra los roles y estados de acceso de los usuarios del sistema.'
       />
 
       <Card className='border-slate-200 overflow-hidden shadow-sm'>
-        <CardContent className="p-0">
+        <CardContent className='p-0'>
           <UsersList
             users={users}
             isLoading={usersLoading}
