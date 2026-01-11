@@ -12,10 +12,9 @@ const reportService = new ReportService(movementRepository);
  * @openapi
  * /api/reports/export:
  *   get:
+ *     tags: [Reports]
  *     summary: Exportar movimientos a CSV
  *     description: Genera y descarga un archivo CSV con todos los movimientos registrados. Solo administradores.
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Archivo CSV generado exitosamente.

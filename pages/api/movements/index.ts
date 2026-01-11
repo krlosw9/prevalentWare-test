@@ -24,6 +24,7 @@ const CreateMovementSchema = z.object({
  * @openapi
  * /api/movements:
  *   get:
+ *     tags: [Movements]
  *     summary: Obtener todos los movimientos
  *     description: Retorna una lista de todos los ingresos y egresos registrados junto con el total.
  *     responses:
@@ -43,10 +44,9 @@ const CreateMovementSchema = z.object({
  *                 totalBalance:
  *                   type: number
  *   post:
+ *     tags: [Movements]
  *     summary: Crear un nuevo movimiento
  *     description: Registra un nuevo ingreso o egreso. Solo disponible para administradores.
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:

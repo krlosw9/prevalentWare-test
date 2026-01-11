@@ -12,10 +12,9 @@ const reportService = new ReportService(movementRepository);
  * @openapi
  * /api/reports:
  *   get:
+ *     tags: [Reports]
  *     summary: Obtener datos para reportes
  *     description: Retorna el balance total y los datos agrupados por día para el gráfico. Solo administradores.
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Datos obtenidos exitosamente.

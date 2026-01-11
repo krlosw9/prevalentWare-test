@@ -14,23 +14,15 @@ const options = {
     info: {
       title: 'Prueba Técnica PrevalentWare API',
       version: '1.0.0',
-      description: 'Documentación de la API para el Sistema de Gestión de Ingresos y Egresos',
+      description: 'Documentación de la API para el Sistema de Gestión de Ingresos y Egresos. \n\n**Nota sobre Autenticación:** Esta API utiliza sesiones basadas en cookies. Para probar los endpoints protegidos, simplemente inicia sesión en la aplicación. Swagger heredará automáticamente la sesión de tu navegador.',
     },
     servers: [
       {
-        url: 'https://prevalent-ware-test.vercel.app/api/docs',
-        description: 'Producción',
-      }
-    ],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
+        url: '/',
+        description: 'Servidor Actual',
       },
-    },
+    ],
+    components: {},
   },
   apis: [path.join(rootDir, 'pages/api/**/*.ts')],
 };

@@ -25,10 +25,9 @@ const UpdateUserSchema = z.object({
  * @openapi
  * /api/users/{id}:
  *   patch:
+ *     tags: [Users]
  *     summary: Actualizar un usuario
  *     description: Actualiza el nombre o el rol de un usuario. Solo administradores.
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
