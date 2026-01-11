@@ -2,10 +2,20 @@
  * Formulario de creación de movimientos
  */
 
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { toast } from 'sonner';
 import { Button } from '@/client/shared/components/ui/button';
 import { Input } from '@/client/shared/components/ui/input';
-import { Label } from '@/client/shared/components/ui/label';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/client/shared/components/ui/form';
 import {
   Select,
   SelectContent,
@@ -16,81 +26,122 @@ import {
 import { useMovementForm } from '../hooks/use-movement-form';
 import type { MovementConcept } from '../types/movement.types';
 
+const formSchema = z.object({
+  amount: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+    message: "El monto debe ser un número positivo",
+  }),
+  concept: z.enum(['INCOME', 'EXPENSE'], {
+    message: 'El concepto debe ser INCOME o EXPENSE',
+  }),
+  date: z.string().min(1, "La fecha es obligatoria"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
 interface CreateMovementFormProps {
   onSuccess?: () => void;
 }
 
 export function CreateMovementForm({ onSuccess }: CreateMovementFormProps) {
-  const [concept, setConcept] = useState<MovementConcept>('EXPENSE');
-  const [amount, setAmount] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-
-  const { handleSubmit, isSubmitting } = useMovementForm({
-    onSuccess: () => {
-      resetForm();
-      onSuccess?.();
-    },
-    onError: (error) => {
-      alert(error.message);
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      amount: '',
+      concept: 'EXPENSE',
+      date: new Date().toISOString().split('T')[0],
     },
   });
 
-  const resetForm = () => {
-    setConcept('EXPENSE');
-    setAmount('');
-    setDate(new Date().toISOString().split('T')[0]);
-  };
+  const { handleSubmit: submitToServer, isSubmitting } = useMovementForm({
+    onSuccess: () => {
+      form.reset();
+      onSuccess?.();
+      toast.success('Movimiento creado con éxito');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    await handleSubmit({
-      concept,
-      amount: parseFloat(amount),
-      date: new Date(date).toISOString(),
+  const onSubmit = async (values: FormValues) => {
+    await submitToServer({
+      concept: values.concept as MovementConcept,
+      amount: parseFloat(values.amount),
+      date: new Date(values.date).toISOString(),
     });
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 pt-4">
-      <div className="space-y-2">
-        <Label htmlFor="amount">Monto</Label>
-        <Input
-          id="amount"
-          type="number"
-          step="0.01"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          required
-          disabled={isSubmitting}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-4">
+        <FormField
+          control={form.control}
+          name="amount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Monto</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  step="100"
+                  placeholder="100"
+                  {...field}
+                  disabled={isSubmitting}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="concept">Concepto</Label>
-        <Select value={concept} onValueChange={(value) => setConcept(value as MovementConcept)} disabled={isSubmitting}>
-          <SelectTrigger>
-            <SelectValue placeholder="Seleccione concepto" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="INCOME">Ingreso</SelectItem>
-            <SelectItem value="EXPENSE">Egreso</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="date">Fecha</Label>
-        <Input
-          id="date"
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-          disabled={isSubmitting}
+
+        <FormField
+          control={form.control}
+          name="concept"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Concepto</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={isSubmitting}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccione concepto" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="INCOME">Ingreso</SelectItem>
+                  <SelectItem value="EXPENSE">Egreso</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <Button type="submit" className="w-full" disabled={isSubmitting}>
-        {isSubmitting ? 'Guardando...' : 'Guardar'}
-      </Button>
-    </form>
+
+        <FormField
+          control={form.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Fecha</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  {...field}
+                  disabled={isSubmitting}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? 'Guardando...' : 'Guardar'}
+        </Button>
+      </form>
+    </Form>
   );
 }
