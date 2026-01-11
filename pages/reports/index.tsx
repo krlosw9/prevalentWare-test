@@ -2,10 +2,16 @@ import { Card } from '@/client/shared/components/ui/card';
 import { useAuth } from '@/client/shared/hooks/use-auth';
 import { useReports } from '@/client/features/reports/hooks/use-reports';
 import { FinancialChart } from '@/client/features/reports/components/financial-chart';
-import { ReportHeader } from '@/client/features/reports/components/report-header';
 import { BalanceCard } from '@/client/features/reports/components/balance-card';
 import { useState, type ReactElement } from 'react';
 import AppLayout from '@/client/shared/components/layout/app-layout';
+
+import PageShell from '@/client/shared/components/layout/page-shell';
+import PageHeader from '@/client/shared/components/layout/page-header';
+import { Button } from '@/client/shared/components/ui/button';
+import { Download } from 'lucide-react';
+
+import { LoadingState } from '@/client/shared/components/ui/loading-state';
 
 const ReportsPage = () => {
   const { role, isPending: authLoading } = useAuth();
@@ -14,11 +20,9 @@ const ReportsPage = () => {
 
   if (authLoading || reportsLoading) {
     return (
-      <div className='flex items-center justify-center p-12'>
-        <p className='text-lg text-slate-500 animate-pulse'>
-          Cargando reportes...
-        </p>
-      </div>
+      <PageShell>
+        <LoadingState message="Cargando reportes financieros..." />
+      </PageShell>
     );
   }
 
@@ -36,8 +40,21 @@ const ReportsPage = () => {
   const hasChartData = reportData && reportData.chartData.length > 0;
 
   return (
-    <div className='space-y-8'>
-      <ReportHeader onExport={handleExport} isExporting={isExporting} />
+    <PageShell>
+      <PageHeader
+        title="Reportes Financieros"
+        description="Analiza el rendimiento económico y exporta balances detallados."
+      >
+        <Button
+          variant="outline"
+          onClick={handleExport}
+          disabled={isExporting}
+          className="shadow-sm"
+        >
+          <Download className="mr-2 h-4 w-4" />
+          {isExporting ? 'Exportando...' : 'Exportar CSV'}
+        </Button>
+      </PageHeader>
 
       <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-4'>
         <BalanceCard balance={reportData?.totalBalance || 0} />
@@ -45,14 +62,14 @@ const ReportsPage = () => {
 
       <div className='w-full'>
         {hasChartData ? (
-          <FinancialChart data={reportData!.chartData} />
+          < FinancialChart data={reportData!.chartData} />
         ) : (
-          <Card className='p-12 text-center text-slate-500 border-slate-200'>
+          <Card className='p-12 text-center text-slate-500 border-slate-200 shadow-sm'>
             No hay movimientos registrados para mostrar en el gráfico
           </Card>
         )}
       </div>
-    </div>
+    </PageShell>
   );
 };
 

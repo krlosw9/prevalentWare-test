@@ -10,36 +10,32 @@ import { UsersList } from '@/client/features/users/components/users-list';
 import AppLayout from '@/client/shared/components/layout/app-layout';
 import type { ReactElement } from 'react';
 
+import PageShell from '@/client/shared/components/layout/page-shell';
+import PageHeader from '@/client/shared/components/layout/page-header';
+
+import { LoadingState } from '@/client/shared/components/ui/loading-state';
+
 const UsersPage = () => {
   const { isPending: authLoading } = useAuth();
   const { users, isLoading: usersLoading, mutate } = useUsers();
 
   if (authLoading || usersLoading) {
     return (
-      <div className='flex items-center justify-center p-12'>
-        <p className='text-lg text-slate-500 animate-pulse'>
-          Cargando usuarios...
-        </p>
-      </div>
+      <PageShell>
+        <LoadingState message="Cargando usuarios..." />
+      </PageShell>
     );
   }
 
   return (
-    <div className='space-y-6'>
-      <div className='space-y-1'>
-        <h1 className='text-3xl font-bold tracking-tight text-slate-900'>
-          Usuarios
-        </h1>
-        <p className='text-slate-500'>
-          Administra los roles y estados de los usuarios.
-        </p>
-      </div>
+    <PageShell>
+      <PageHeader
+        title="Gestión de Usuarios"
+        description="Administra los roles y estados de acceso de los usuarios del sistema."
+      />
 
-      <Card className='border-slate-200'>
-        <CardHeader>
-          <CardTitle>Gestión de Usuarios</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <Card className='border-slate-200 overflow-hidden shadow-sm'>
+        <CardContent className="p-0">
           <UsersList
             users={users}
             isLoading={usersLoading}
@@ -47,7 +43,7 @@ const UsersPage = () => {
           />
         </CardContent>
       </Card>
-    </div>
+    </PageShell>
   );
 };
 

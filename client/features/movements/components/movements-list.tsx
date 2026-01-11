@@ -4,6 +4,7 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from '@/client/shared/components/ui/table';
 import type { Movement } from '../types/movement.types';
+import { LoadingState } from '@/client/shared/components/ui/loading-state';
 
 interface MovementsListProps {
   movements?: Movement[];
@@ -13,7 +14,7 @@ interface MovementsListProps {
 
 export function MovementsList({ movements, totalBalance, isLoading }: MovementsListProps) {
   if (isLoading) {
-    return <div className="p-8">Cargando movimientos...</div>;
+    return <LoadingState message="Cargando movimientos..." className="p-20" />;
   }
 
   return (
