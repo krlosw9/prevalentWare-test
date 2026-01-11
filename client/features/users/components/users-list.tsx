@@ -8,6 +8,7 @@ import { Pencil } from 'lucide-react';
 import type { User } from '../types/user.types';
 import { useState } from 'react';
 import { EditUserForm } from './edit-user-form';
+import { LoadingState } from '@/client/shared/components/ui/loading-state';
 
 interface UsersListProps {
   users: User[];
@@ -19,7 +20,7 @@ export function UsersList({ users, isLoading, onUserUpdated }: UsersListProps) {
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
   if (isLoading) {
-    return <div className="p-8 text-center">Cargando usuarios...</div>;
+    return <LoadingState message="Cargando lista de usuarios..." className="p-20" />;
   }
 
   return (

@@ -12,10 +12,9 @@ const userService = new UserService(userRepository);
  * @openapi
  * /api/users:
  *   get:
+ *     tags: [Users]
  *     summary: Obtener todos los usuarios
  *     description: Retorna una lista de todos los usuarios registrados. Solo administradores.
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de usuarios obtenida exitosamente.

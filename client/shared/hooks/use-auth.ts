@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { authClient } from "@/lib/auth/client";
 
 export const useAuth = () => {
@@ -17,8 +18,24 @@ export const useAuth = () => {
 };
 
 export const useLogin = () => {
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  const loginWithGithub = async () => {
+    setIsLoggingIn(true);
+    try {
+      await authClient.signIn.social({
+        provider: 'github',
+        callbackURL: '/',
+      });
+    } catch (error) {
+      setIsLoggingIn(false);
+      throw error;
+    }
+  };
+
   return {
-    signIn: authClient.signIn.social,
+    isLoggingIn,
+    loginWithGithub,
     signOut: authClient.signOut,
-  }
-}
+  };
+};
