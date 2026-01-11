@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { Github } from 'lucide-react';
-import { authClient } from '@/lib/auth/client';
+import { useLogin } from '@/client/shared/hooks/use-auth';
 import { auth } from '@/lib/auth';
 import { Button } from '@/client/shared/components/ui/button';
 import {
@@ -12,12 +12,7 @@ import {
 } from '@/client/shared/components/ui/card';
 
 const SignIn = () => {
-  const handleLogin = async () => {
-    await authClient.signIn.social({
-      provider: 'github',
-      callbackURL: '/',
-    });
-  };
+  const { loginWithGithub } = useLogin();
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-100'>
@@ -30,7 +25,7 @@ const SignIn = () => {
         </CardHeader>
         <CardContent>
           <div className='grid w-full items-center gap-4'>
-            <Button className='w-full' onClick={handleLogin}>
+            <Button className='w-full' onClick={loginWithGithub}>
               <Github className='mr-2 h-4 w-4' />
               Continuar con GitHub
             </Button>

@@ -17,8 +17,15 @@ export const useAuth = () => {
 };
 
 export const useLogin = () => {
+  const loginWithGithub = async () => {
+    return await authClient.signIn.social({
+      provider: 'github',
+      callbackURL: '/',
+    });
+  };
+
   return {
-    signIn: authClient.signIn.social,
+    loginWithGithub,
     signOut: authClient.signOut,
-  }
-}
+  };
+};
