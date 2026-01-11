@@ -22,6 +22,7 @@ export function FinancialChart({ data }: FinancialChartProps) {
     date: new Date(item.date).toLocaleDateString(undefined, {
       day: '2-digit',
       month: 'short',
+      timeZone: 'UTC',
     }),
   }));
 

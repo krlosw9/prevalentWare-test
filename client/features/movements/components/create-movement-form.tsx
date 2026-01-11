@@ -67,7 +67,7 @@ export function CreateMovementForm({ onSuccess }: CreateMovementFormProps) {
     await submitToServer({
       concept: values.concept as MovementConcept,
       amount: parseFloat(values.amount),
-      date: new Date(values.date).toISOString(),
+      date: `${values.date}T00:00:00.000Z`,
     });
   };
 

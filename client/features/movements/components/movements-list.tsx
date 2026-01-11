@@ -46,7 +46,7 @@ export function MovementsList({ movements, totalBalance, isLoading }: MovementsL
               {movement.concept === 'INCOME' ? 'Ingreso' : 'Egreso'}
             </TableCell>
             <TableCell>
-              {new Date(movement.date).toLocaleDateString()}
+              {new Date(movement.date).toLocaleDateString(undefined, { timeZone: 'UTC' })}
             </TableCell>
             <TableCell>
               {movement.user?.name || 'Sistema'}

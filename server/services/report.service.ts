@@ -28,7 +28,7 @@ export class ReportService {
     const rows = movements.map(m => {
       const concept = m.concept === 'INCOME' ? 'Ingreso' : 'Egreso';
       const amount = m.amount.toString();
-      const date = new Date(m.date).toLocaleDateString();
+      const date = new Date(m.date).toLocaleDateString('es-CO', { timeZone: 'UTC' });
       const user = (m as any).user?.name || 'Sistema';
 
       return [concept, amount, date, user].join(',');

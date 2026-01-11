@@ -86,7 +86,7 @@ model Movement {
   id        String   @id @default(uuid())
   concept   String
   amount    Decimal  @db.Decimal(10, 2)
-  date      DateTime
+  date      DateTime @db.Date
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
