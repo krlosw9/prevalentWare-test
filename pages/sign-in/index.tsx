@@ -1,5 +1,7 @@
+import { GetServerSideProps } from 'next';
 import { Github } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
+import { auth } from '@/lib/auth';
 import { Button } from '@/client/shared/components/ui/button';
 import {
   Card,
@@ -37,6 +39,25 @@ const SignIn = () => {
       </Card>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await auth.api.getSession({
+    headers: new Headers(ctx.req.headers as any),
+  });
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default SignIn;

@@ -7,16 +7,25 @@ export async function middleware(request: NextRequest) {
     headers: await headers()
   })
 
-  // 1. Si no hay sesión, siempre redirigir a sign-in
+  const { pathname } = request.nextUrl;
+
+  // 1. Si el usuario ya está autenticado e intenta ir a sign-in, redirigir al home
+  if (pathname === "/sign-in") {
+    if (session) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+    return NextResponse.next();
+  }
+
+  // 2. Si no hay sesión y no es sign-in, redirigir a sign-in
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  // 2. Extraer el rol (con as any por la limitación de tipos de Better Auth)
+  // 3. Extraer el rol (con as any por la limitación de tipos de Better Auth)
   const userRole = (session.user as any)?.role;
-  const { pathname } = request.nextUrl;
 
-  // 3. Rutas que requieren ADMIN
+  // 4. Rutas que requieren ADMIN
   const adminRoutes = ["/users", "/reports"];
   const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route));
 
@@ -30,5 +39,5 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   runtime: "nodejs",
-  matcher: ["/", "/movements", "/users", "/reports"],
+  matcher: ["/", "/movements", "/users", "/reports", "/sign-in"],
 };
